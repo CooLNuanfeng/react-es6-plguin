@@ -3,10 +3,6 @@ import ReactDOM from 'react-dom';
 
 import Dialog from '../components/dialog/dialog.js';
 
-var dialogConfig = {
-    type: 'loading',
-    text : 'waiting'
-}
 
 
 class Button extends Component{
@@ -30,7 +26,11 @@ class Button extends Component{
             case 1:
                 config = {
                     text : 'waiting',
-                    type : 'waiting'
+                    type : 'waiting',
+                    buttons : [
+                        {type:'success',text:'确定',callback:function(){console.log('ok callback');}},
+                        {type:'default',text:'取消',callback:function(){console.log('cancel callback');}}
+                    ]
                 }
                 break;
         }
@@ -86,4 +86,31 @@ const App = (props) => {
   );
 }
 
+class ToastMask extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            show : true
+        }
+    }
+    render(){
+        var config = {
+            type : 'warning',
+            text : 'warning'
+        }
+        return (
+            <Dialog config={config} show={this.state.show} />
+        )
+    }
+    componentDidMount(){
+        var _this = this;
+        setTimeout(function(){
+            _this.setState({
+                show : false
+            })
+        },3000);
+    }
+}
+
 ReactDOM.render(<App />,document.getElementById('demo'));
+ReactDOM.render(<ToastMask />,document.getElementById('toast'));

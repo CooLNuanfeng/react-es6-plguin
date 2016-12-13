@@ -21682,20 +21682,24 @@
 	        key: 'render',
 	        value: function render() {
 	            var show = this.props.show;
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'nf-dialog-mask', style: { display: show ? 'block' : 'none', background: 'rgba(0,0,0,' + this.state.opacity + ')' }, onClick: this.close.bind(this) },
-	                _react2.default.createElement(
+	            if (show) {
+	                return _react2.default.createElement(
 	                    'div',
-	                    { className: 'nf-dialog' },
+	                    { className: 'nf-dialog-mask', style: { background: 'rgba(0,0,0,' + this.state.opacity + ')' }, onClick: this.close.bind(this) },
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'nf-dialog-warp' },
-	                        _react2.default.createElement(DialogImg, { type: this.state.type }),
-	                        _react2.default.createElement(DialogBody, { text: this.state.text })
+	                        { className: 'nf-dialog' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'nf-dialog-warp' },
+	                            _react2.default.createElement(DialogImg, { type: this.state.type }),
+	                            _react2.default.createElement(DialogBody, { text: this.state.text })
+	                        )
 	                    )
-	                )
-	            );
+	                );
+	            } else {
+	                return null;
+	            }
 	        }
 	    }, {
 	        key: 'close',

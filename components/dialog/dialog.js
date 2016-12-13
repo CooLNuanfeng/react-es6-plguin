@@ -27,6 +27,38 @@ class DialogBody extends Component{
     }
 }
 
+class DialogButton extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            buttons : props.buttons
+        }
+    }
+    render(){
+        var _this = this;
+        if(this.state.buttons){
+            return(
+                <div>
+                    {
+                        this.state.buttons.map(function(item,index){
+                            return (
+                                <button key={index} className={'btn btn-'+item.type} onClick={_this.btnClick.bind(_this,item.callback)}>{item.text}</button>
+                            )
+                        })
+                    }
+                </div>
+            )
+        }else{
+            return null;
+        }
+    }
+    btnClick(cb){
+        if(cb){
+            cb();
+        }
+    }
+}
+
 export default class Dialog extends Component {
     constructor(props){
         super(props);
@@ -41,6 +73,7 @@ export default class Dialog extends Component {
     }
     render(){
         var show = this.props.show;
+
         if(show){
             return (
                 <div className="nf-dialog-mask" style={{background:'rgba(0,0,0,'+this.state.opacity+')'}} onClick={this.close.bind(this)}>
@@ -48,6 +81,7 @@ export default class Dialog extends Component {
                         <div className="nf-dialog-warp">
                             <DialogImg type={this.state.type} />
                             <DialogBody text={this.state.text} />
+                            <DialogButton buttons={this.state.buttons} />
                         </div>
                     </div>
                 </div>
