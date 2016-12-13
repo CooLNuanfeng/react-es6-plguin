@@ -46,6 +46,8 @@
 
 	'use strict';
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -60,17 +62,115 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 	var dialogConfig = {
-	  type: 'loading',
-	  text: 'loading'
+	    type: 'loading',
+	    text: 'waiting'
 	};
 
+	var Button = function (_Component) {
+	    _inherits(Button, _Component);
+
+	    function Button(props) {
+	        _classCallCheck(this, Button);
+
+	        var _this = _possibleConstructorReturn(this, (Button.__proto__ || Object.getPrototypeOf(Button)).call(this, props));
+
+	        _this.state = {
+	            show: props.show ? props.show : false,
+	            text: props.text,
+	            type: props.type
+	        };
+	        return _this;
+	    }
+
+	    _createClass(Button, [{
+	        key: 'render',
+	        value: function render() {
+	            var config = null;
+	            switch (this.state.type) {
+	                case 0:
+	                    config = {
+	                        text: 'loading',
+	                        type: 'loading'
+	                    };
+	                    break;
+	                case 1:
+	                    config = {
+	                        text: 'waiting',
+	                        type: 'waiting'
+	                    };
+	                    break;
+	            }
+	            return _react2.default.createElement(
+	                'div',
+	                { style: { margin: '10px' } },
+	                _react2.default.createElement(
+	                    'button',
+	                    { className: 'btn btn-block btn-primary', onClick: this.clickFn.bind(this) },
+	                    this.state.text
+	                ),
+	                _react2.default.createElement(_dialog2.default, { config: config, show: this.state.show, onHide: this.hide.bind(this) })
+	            );
+	        }
+	    }, {
+	        key: 'clickFn',
+	        value: function clickFn() {
+	            this.setState({
+	                show: true
+	            });
+	        }
+	    }, {
+	        key: 'hide',
+	        value: function hide() {
+	            this.setState({
+	                show: false
+	            });
+	        }
+	    }]);
+
+	    return Button;
+	}(_react.Component);
+
+	var Buttons = function (_Component2) {
+	    _inherits(Buttons, _Component2);
+
+	    function Buttons(props) {
+	        _classCallCheck(this, Buttons);
+
+	        var _this2 = _possibleConstructorReturn(this, (Buttons.__proto__ || Object.getPrototypeOf(Buttons)).call(this, props));
+
+	        _this2.state = {
+	            buttons: props.data
+	        };
+	        return _this2;
+	    }
+
+	    _createClass(Buttons, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                this.state.buttons.map(function (item, index) {
+	                    return _react2.default.createElement(Button, { key: index, text: item.text, type: item.type });
+	                })
+	            );
+	        }
+	    }]);
+
+	    return Buttons;
+	}(_react.Component);
+
+	var buttonData = [{ text: 'toast提示框', type: 0 }, { text: '带图标的toast提示框', type: 1 }];
+
 	var App = function App(props) {
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(_dialog2.default, { config: dialogConfig })
-	  );
+	    return _react2.default.createElement(Buttons, { data: buttonData });
 	};
 
 	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('demo'));
@@ -21508,36 +21608,99 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Dialog = function (_Component) {
-	    _inherits(Dialog, _Component);
+	var DialogImg = function (_Component) {
+	    _inherits(DialogImg, _Component);
+
+	    function DialogImg() {
+	        _classCallCheck(this, DialogImg);
+
+	        return _possibleConstructorReturn(this, (DialogImg.__proto__ || Object.getPrototypeOf(DialogImg)).apply(this, arguments));
+	    }
+
+	    _createClass(DialogImg, [{
+	        key: 'render',
+	        value: function render() {
+	            if (this.props.type) {
+	                var type = 'nf-dialog-img nf-dialog-' + this.props.type;
+	                return _react2.default.createElement('div', { className: type });
+	            } else {
+	                return null;
+	            }
+	        }
+	    }]);
+
+	    return DialogImg;
+	}(_react.Component);
+
+	var DialogBody = function (_Component2) {
+	    _inherits(DialogBody, _Component2);
+
+	    function DialogBody() {
+	        _classCallCheck(this, DialogBody);
+
+	        return _possibleConstructorReturn(this, (DialogBody.__proto__ || Object.getPrototypeOf(DialogBody)).apply(this, arguments));
+	    }
+
+	    _createClass(DialogBody, [{
+	        key: 'render',
+	        value: function render() {
+	            if (this.props.text) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { className: 'nf-dialog-body' },
+	                    this.props.text
+	                );
+	            } else {
+	                return null;
+	            }
+	        }
+	    }]);
+
+	    return DialogBody;
+	}(_react.Component);
+
+	var Dialog = function (_Component3) {
+	    _inherits(Dialog, _Component3);
 
 	    function Dialog(props) {
 	        _classCallCheck(this, Dialog);
 
 	        // default config
-	        var _this = _possibleConstructorReturn(this, (Dialog.__proto__ || Object.getPrototypeOf(Dialog)).call(this, props));
+	        var _this3 = _possibleConstructorReturn(this, (Dialog.__proto__ || Object.getPrototypeOf(Dialog)).call(this, props));
 
-	        _this.state = {
-	            type: 'loading',
-	            text: '',
-	            buttons: null
+	        _this3.state = {
+	            show: props.show,
+	            type: props.config.type || '',
+	            text: props.config.text || '',
+	            buttons: props.config.buttons || null,
+	            opacity: props.config.opacity || .7
 	        };
-	        return _this;
+	        return _this3;
 	    }
 
 	    _createClass(Dialog, [{
 	        key: 'render',
 	        value: function render() {
-	            console.log(this.props.data);
+	            var show = this.props.show;
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'nf-dialog-mask' },
+	                { className: 'nf-dialog-mask', style: { display: show ? 'block' : 'none', background: 'rgba(0,0,0,' + this.state.opacity + ')' }, onClick: this.close.bind(this) },
 	                _react2.default.createElement(
-	                    'h1',
-	                    null,
-	                    'hello world'
+	                    'div',
+	                    { className: 'nf-dialog' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'nf-dialog-warp' },
+	                        _react2.default.createElement(DialogImg, { type: this.state.type }),
+	                        _react2.default.createElement(DialogBody, { text: this.state.text })
+	                    )
 	                )
 	            );
+	        }
+	    }, {
+	        key: 'close',
+	        value: function close() {
+	            this.props.onHide();
 	        }
 	    }]);
 
@@ -21546,7 +21709,9 @@
 
 	exports.default = Dialog;
 
-	Dialog.propTypes = {};
+	Dialog.propTypes = {
+	    config: _react2.default.PropTypes.object.isRequired
+	};
 
 /***/ },
 /* 179 */
