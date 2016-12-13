@@ -32,6 +32,7 @@ export default class Dialog extends Component {
         super(props);
         // default config
         this.state = {
+            show : props.show,
             type : props.config.type || '',
             text : props.config.text || '',
             buttons : props.config.buttons || null,
@@ -39,17 +40,20 @@ export default class Dialog extends Component {
         }
     }
     render(){
+        var show = this.props.show;
         return (
-            <div className="nf-dialog-mask" style={{background:'rgba(0,0,0,'+this.state.opacity+')'}} onClick={this.close.bind(this)}>
-                <div className="nf-dialog-warp">
-                    <DialogImg type={this.state.type} />
-                    <DialogBody text={this.state.text} />
+            <div className="nf-dialog-mask" style={{display:show?'block':'none',background:'rgba(0,0,0,'+this.state.opacity+')'}} onClick={this.close.bind(this)}>
+                <div className="nf-dialog">
+                    <div className="nf-dialog-warp">
+                        <DialogImg type={this.state.type} />
+                        <DialogBody text={this.state.text} />
+                    </div>
                 </div>
             </div>
         )
     }
     close(){
-        console.log('close');
+        this.props.onHide();
     }
 }
 Dialog.propTypes = {

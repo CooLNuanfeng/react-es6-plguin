@@ -13,33 +13,43 @@ class Button extends Component{
     constructor(props){
         super(props);
         this.state = {
+            show : props.show ? props.show : false,
             text : props.text,
             type : props.type
         }
     }
     render(){
-        return(
-            <button className="btn btn-block btn-primary" onClick={this.clickFn.bind(this,this.state.type)}>{this.state.text}</button>
-        )
-    }
-    clickFn(type){
         var config = null;
-        switch (type) {
+        switch (this.state.type) {
             case 0:
                 config = {
-                    type : 'loading',
-                    text : 'loading'
+                    text : 'loading',
+                    type : 'loading'
                 }
                 break;
-            case 1 :
+            case 1:
                 config = {
-                    type : 'warning',
-                    text : 'warning'
+                    text : 'waiting',
+                    type : 'waiting'
                 }
                 break;
         }
-        ReactDOM.render(<Dialog config={config}/>,document.getElementById('mask'));
-
+        return(
+            <div style={{margin:'10px'}}>
+                <button className="btn btn-block btn-primary" onClick={this.clickFn.bind(this)}>{this.state.text}</button>
+                <Dialog config={config} show={this.state.show} onHide={this.hide.bind(this)}/>
+            </div>
+        )
+    }
+    clickFn(){
+        this.setState({
+            show : true
+        })
+    }
+    hide(){
+        this.setState({
+            show : false
+        })
     }
 }
 
