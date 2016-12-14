@@ -19,18 +19,48 @@ class Button extends Component{
         switch (this.state.type) {
             case 0:
                 config = {
-                    text : 'loading',
-                    type : 'loading'
+                    text : 'toast提示信息',
                 }
                 break;
             case 1:
                 config = {
-                    text : 'waiting',
-                    type : 'waiting',
+                    text : 'toast提示信息',
+                    type : 'warning'
+                }
+                break;
+            case 2:
+                //trigger 是否阻止冒泡 使 dialog 关闭
+                config = {
+                    text : 'waiting Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                    textAlign : 'left',
+                    type : 'warning',
                     buttons : [
-                        {type:'success',text:'确定',callback:function(){console.log('ok callback');}},
-                        {type:'default',text:'取消',callback:function(){console.log('cancel callback');}}
+                        {
+                            type:'success',
+                            text:'确定',
+                            trigger: true,
+                            buttonStyle: {
+                                width : '100px'
+                            },
+                            callback:function(){
+                                console.log('ok callback');
+                            }
+                        },
+                        {
+                            type:'default',
+                            text:'取消',
+                            callback:function(){
+                                console.log('cancel callback');
+                            }
+                        }
                     ]
+                }
+                break;
+            case 4:
+                config = {
+                    text :'loading',
+                    type : 'loading',
+                    delay : 3000
                 }
                 break;
         }
@@ -78,6 +108,8 @@ class Buttons extends Component{
 var buttonData = [
     {text:'toast提示框',type:0},
     {text:'带图标的toast提示框',type:1},
+    {text:'带图标和按钮的提示框',type:2},
+    {text:'toast提示框延时3s后消失',type:4}
 ]
 
 const App = (props) => {
@@ -95,22 +127,22 @@ class ToastMask extends Component{
     }
     render(){
         var config = {
-            type : 'warning',
             text : 'warning'
         }
         return (
-            <Dialog config={config} show={this.state.show} />
+            <Dialog config={config} show={this.state.show} onHide={null}/>
         )
     }
     componentDidMount(){
-        var _this = this;
         setTimeout(function(){
-            _this.setState({
-                show : false
-            })
-        },3000);
+            this.close();
+        }.bind(this),2000);
+    }
+    close(){
+        this.setState({
+            show : false
+        })
     }
 }
 
 ReactDOM.render(<App />,document.getElementById('demo'));
-ReactDOM.render(<ToastMask />,document.getElementById('toast'));

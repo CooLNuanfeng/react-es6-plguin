@@ -1,9 +1,13 @@
+button {
+  outline: none; }
+
 .nf-dialog-mask {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0; }
+  bottom: 0;
+  z-index: 9999; }
 
 .nf-dialog {
   width: 100%;
@@ -16,4 +20,8 @@
   padding: 10px 20px;
   border-radius: 2px;
   background: #000;
-  color: #fff; }
+  color: #fff;
+  text-align: center; }
+
+.nf-dialog-footer button {
+  margin: 0 5px; }

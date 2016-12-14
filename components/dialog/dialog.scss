@@ -1,3 +1,6 @@
+button{
+    outline: none;
+}
 .nf-dialog-mask{
     position: fixed;
     top: 0;
@@ -9,13 +12,109 @@
 .nf-dialog{
     width: 100%;
     height: 100%;
+    display: -webkit-box;
     display: flex;
+    -webkit-box-pack : center;
     justify-content: center;
+    -webkit-box-align : vertical;
     align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
 }
 .nf-dialog-warp{
     padding: 10px 20px;
     border-radius: 2px;
     background: #000;
     color: #fff;
+    text-align: center;
+}
+.nf-dialog-header{
+    margin-bottom: 10px;
+}
+.nf-dialog-footer{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    button{
+        margin: 0 5px;
+    }
+}
+
+.nf-dialog-warning{
+    width: 60px;
+    height: 60px;
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack : center;
+    justify-content: center;
+    -webkit-box-align : vertical;
+    align-items: center;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+.nf-dialog-warning::before{
+    content: '';
+    width: 35px;
+    height: 10px;
+    background: #fff;
+}
+.nf-dialog-warning::after{
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background: #fff;
+    margin-left: 5px;
+}
+
+
+
+.nf-dialog-loading{
+    width: 60px;
+    height: 60px;
+    position: relative;
+    text-align: center;
+    -webkit-animation: sk-rotate 2.0s infinite linear;
+    animation: sk-rotate 2.0s infinite linear;
+    display: inline-block;
+}
+.nf-dialog-loading::before, .nf-dialog-loading::after{
+    content: '';
+    width: 40%;
+    height: 40%;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    background-color: #fff;
+    border-radius: 100%;
+    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.nf-dialog-loading::after {
+  top: auto;
+  bottom: 0;
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-rotate { 100% { -webkit-transform: rotate(360deg) }}
+@keyframes sk-rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
 }

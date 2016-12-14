@@ -2,7 +2,8 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin"); // 将css单独�
 
 module.exports = {
     entry : {
-        'app' : './source/app.js'
+        'appTest' : './pages/appTest.js',
+        'appDialog' : './pages/appDialog.js',
     },
     output : {
         path : './dist/',
