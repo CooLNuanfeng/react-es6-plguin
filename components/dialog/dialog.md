@@ -18,7 +18,6 @@
             callback : 按钮点击的回调函数
         }
         opacity :  mask遮罩透明度
-        delay :  是否延时关闭，设置后 延时关闭,必须配合 onHide 使用
         enabledMask :  mask 遮罩点击关闭是否有效
     }
 

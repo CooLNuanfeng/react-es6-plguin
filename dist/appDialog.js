@@ -130,8 +130,7 @@
 	                case 3:
 	                    config = {
 	                        text: 'loading',
-	                        type: 'loading',
-	                        delay: 3000
+	                        type: 'loading'
 	                    };
 	                    break;
 	            }
@@ -149,6 +148,11 @@
 	    }, {
 	        key: 'clickFn',
 	        value: function clickFn() {
+	            if (this.state.id == 3) {
+	                setTimeout(function () {
+	                    this.hide();
+	                }.bind(this), 3000);
+	            }
 	            this.setState({
 	                show: true
 	            });
@@ -195,7 +199,7 @@
 	    return Buttons;
 	}(_react.Component);
 
-	var buttonData = [{ text: 'toast提示框', id: 0 }, { text: '带图标的toast提示框', id: 1 }, { text: '带图标和按钮的提示框', id: 2 }, { text: 'toast提示框延时3s后消失', id: 3 }];
+	var buttonData = [{ text: 'toast提示框', id: 0 }, { text: '带图标的toast提示框', id: 1 }, { text: '带图标和按钮的提示框', id: 2 }, { text: 'toast提示框延时3s消失', id: 3 }];
 
 	var App = function App(props) {
 	    return _react2.default.createElement(Buttons, { data: buttonData });
@@ -276,7 +280,6 @@
 	            var config = {
 	                'text': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 	                'textAlign': 'left',
-	                'enabledMask': true,
 	                'buttons': [{
 	                    'type': 'warning',
 	                    'text': '确定',
@@ -21934,7 +21937,6 @@
 	            textAlign: props.config.textAlign || 'center',
 	            buttons: props.config.buttons || null,
 	            opacity: props.config.opacity || .5,
-	            delay: props.config.delay || false,
 	            enabledMask: props.config.enabledMask
 	        };
 	        _this5.delayInter = null;
@@ -21967,28 +21969,6 @@
 	            }
 	        }
 	    }, {
-	        key: 'componentWillUpdate',
-	        value: function componentWillUpdate() {
-	            //延时关闭
-	            //console.log('componentWillUpdate',this.delayInter);
-	            if (this.state.delay) {
-	                this.delayInter = window.setTimeout(function () {
-	                    //console.log('componentWillUpdate in setTimeout before close',this.delayInter);
-	                    console.log('close');
-	                    this.close();
-	                    //console.log('componentWillUpdate in setTimeout after close',this.delayInter);
-	                    clearTimeout(this.delayInter); //一定要在此处关闭，因为关闭时state的变化也会触发render和 该 componentWillUpdate 方法，在 close中的clear关闭是上一个，本次又会开启个定时器，通过 log 会发现，固需要再关闭一次
-	                }.bind(this), this.state.delay);
-	            }
-	        }
-	        // componentDidUpdate(){
-	        //     console.log('componentDidUpdate');
-	        // }
-	        // componentDidMount(){
-	        //     console.log('componentDidMount');
-	        // }
-
-	    }, {
 	        key: 'fn',
 	        value: function fn(flag) {
 	            if (this.props.onHide && !flag) {
@@ -22000,12 +21980,9 @@
 	        key: 'close',
 	        value: function close() {
 	            //console.log('close',this.delayInter);
-	            if (!this.state.delay) {
-	                if (!this.state.enabledMask) {
-	                    return;
-	                }
+	            if (!this.state.enabledMask) {
+	                return;
 	            }
-
 	            if (this.props.onHide) {
 	                clearTimeout(this.delayInter); //关闭了上次的 timeout
 	                this.props.onHide();

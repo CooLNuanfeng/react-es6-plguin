@@ -74,7 +74,6 @@ export default class Dialog extends Component {
             textAlign : props.config.textAlign || 'center',
             buttons : props.config.buttons || null,
             opacity : props.config.opacity || .5,
-            delay : props.config.delay || false,
             enabledMask : props.config.enabledMask
         }
         this.delayInter = null;
@@ -98,26 +97,7 @@ export default class Dialog extends Component {
             return null;
         }
     }
-    componentWillUpdate(){
-        //延时关闭
-        //console.log('componentWillUpdate',this.delayInter);
-        if(this.state.delay){
-            this.delayInter = window.setTimeout(function(){
-                //console.log('componentWillUpdate in setTimeout before close',this.delayInter);
-                console.log('close');
-                this.close();
-                //console.log('componentWillUpdate in setTimeout after close',this.delayInter);
-                clearTimeout(this.delayInter);//一定要在此处关闭，因为关闭时state的变化也会触发render和 该 componentWillUpdate 方法，在 close中的clear关闭是上一个，本次又会开启个定时器，通过 log 会发现，固需要再关闭一次
 
-            }.bind(this),this.state.delay);
-        }
-    }
-    // componentDidUpdate(){
-    //     console.log('componentDidUpdate');
-    // }
-    // componentDidMount(){
-    //     console.log('componentDidMount');
-    // }
     fn(flag){
         if(this.props.onHide && !flag){
             clearTimeout(this.delayInter); //关闭了上次的 timeout
@@ -126,12 +106,9 @@ export default class Dialog extends Component {
     }
     close(){
         //console.log('close',this.delayInter);
-        if(!this.state.delay){
-            if(!this.state.enabledMask){
-                return ;
-            }
+        if(!this.state.enabledMask){
+            return ;
         }
-
         if(this.props.onHide){
             clearTimeout(this.delayInter); //关闭了上次的 timeout
             this.props.onHide();

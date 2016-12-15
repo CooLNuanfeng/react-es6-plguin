@@ -62,7 +62,6 @@ class Button extends Component{
                 config = {
                     text :'loading',
                     type : 'loading',
-                    delay : 3000
                 }
                 break;
         }
@@ -74,6 +73,11 @@ class Button extends Component{
         )
     }
     clickFn(){
+        if(this.state.id==3){
+            setTimeout(function(){
+                this.hide();
+            }.bind(this),3000);
+        }
         this.setState({
             show : true
         })
@@ -111,7 +115,7 @@ var buttonData = [
     {text:'toast提示框',id:0},
     {text:'带图标的toast提示框',id:1},
     {text:'带图标和按钮的提示框',id:2},
-    {text:'toast提示框延时3s后消失',id:3}
+    {text:'toast提示框延时3s消失',id:3}
 ]
 
 const App = (props) => {
@@ -174,7 +178,6 @@ class ButtonOne extends Component{
         var config = {
             'text' : 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
             'textAlign' : 'left',
-            'enabledMask' : true,
             'buttons' : [
                 {
                     'type' : 'warning',
