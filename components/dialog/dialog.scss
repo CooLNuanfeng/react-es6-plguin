@@ -40,7 +40,7 @@ button{
     }
 }
 
-.nf-dialog-warning{
+.nf-dialog-warning,.nf-dialog-success{
     width: 60px;
     height: 60px;
     margin: 10px auto;
@@ -55,6 +55,19 @@ button{
     align-items: center;
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
+}
+.nf-dialog-success{
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+.nf-dialog-success::before{
+    content: '';
+    width: 35px;
+    height: 18px;
+    border-left: 3px solid #fff;
+    border-bottom: 3px solid #fff;
+    margin-top: -5px;
+    margin-right: -4px;
 }
 .nf-dialog-warning::before{
     content: '';

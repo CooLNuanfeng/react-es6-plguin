@@ -20,12 +20,14 @@ class Button extends Component{
             case 0:
                 config = {
                     text : 'toast提示信息',
+                    enabledMask : true,
                 }
                 break;
             case 1:
                 config = {
                     text : 'toast提示信息',
-                    type : 'warning'
+                    type : 'success',
+                    enabledMask : true,
                 }
                 break;
             case 2:
@@ -34,7 +36,6 @@ class Button extends Component{
                     text : 'waiting Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                     textAlign : 'left',
                     type : 'warning',
-                    disabledMask : true,
                     buttons : [
                         {
                             type:'success',
@@ -131,28 +132,28 @@ class ToastMask extends Component{
         var config = {
             type : 'loading',
             text : 'loading...',
-            // disabledMask : true,
+            enabledMask : true,
         }
         return (
             <Dialog config={config} show={this.state.show} onHide={null}/>
         )
     }
     componentDidMount(){
-        var _this = this;
-        $.ajax({
-            url : './phpData/data.php',
-            type: 'GET',
-        })
-        .done(function(res) {
-            _this.setState({
-                show : false
-            })
-        });
-        // setTimeout(function(){
-        //     this.setState({
+        // var _this = this;
+        // $.ajax({
+        //     url : './phpData/data.php',
+        //     type: 'GET',
+        // })
+        // .done(function(res) {
+        //     _this.setState({
         //         show : false
         //     })
-        // }.bind(this),3000)
+        // });
+        setTimeout(function(){
+            this.setState({
+                show : false
+            })
+        }.bind(this),3000)
 
     }
     close(){
@@ -173,6 +174,7 @@ class ButtonOne extends Component{
         var config = {
             'text' : 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
             'textAlign' : 'left',
+            'enabledMask' : true,
             'buttons' : [
                 {
                     'type' : 'warning',
@@ -202,6 +204,49 @@ class ButtonOne extends Component{
     }
 }
 
+
+class ButtonTwo extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            isShow : false
+        }
+    }
+    render(){
+        var config = {
+            'text' : 'loading',
+            'type' : 'loading',
+        }
+        return(
+            <div style={{margin:'10px'}}>
+                <button onClick={this.open.bind(this)} className="btn btn-success btn-block">获取数据按钮dialog使用示例</button>
+                <Dialog config={config} show={this.state.isShow} onHide={this.hiden.bind(this)} />
+            </div>
+        )
+    }
+    open(){
+        var _this = this;
+        this.setState({
+            isShow : true
+        });
+        $.ajax({
+            url : './phpData/data.php',
+            type: 'GET',
+        })
+        .done(function() {
+            _this.setState({
+                isShow : false
+            })
+        })
+    }
+    hiden(){
+        this.setState({
+            isShow : false
+        })
+    }
+}
+
 ReactDOM.render(<ButtonOne />,document.getElementById('btn1'));
+ReactDOM.render(<ButtonTwo />,document.getElementById('btn2'));
 ReactDOM.render(<App />,document.getElementById('demo'));
 ReactDOM.render(<ToastMask />,document.getElementById('toast'));

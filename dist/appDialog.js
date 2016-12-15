@@ -91,13 +91,15 @@
 	            switch (this.state.id) {
 	                case 0:
 	                    config = {
-	                        text: 'toast提示信息'
+	                        text: 'toast提示信息',
+	                        enabledMask: true
 	                    };
 	                    break;
 	                case 1:
 	                    config = {
 	                        text: 'toast提示信息',
-	                        type: 'warning'
+	                        type: 'success',
+	                        enabledMask: true
 	                    };
 	                    break;
 	                case 2:
@@ -106,7 +108,6 @@
 	                        text: 'waiting Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 	                        textAlign: 'left',
 	                        type: 'warning',
-	                        disabledMask: true,
 	                        buttons: [{
 	                            type: 'success',
 	                            text: '确定',
@@ -219,27 +220,29 @@
 	        value: function render() {
 	            var config = {
 	                type: 'loading',
-	                text: 'loading...'
+	                text: 'loading...',
+	                enabledMask: true
 	            };
 	            return _react2.default.createElement(_dialog2.default, { config: config, show: this.state.show, onHide: null });
 	        }
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var _this = this;
-	            $.ajax({
-	                url: './phpData/data.php',
-	                type: 'GET'
-	            }).done(function (res) {
-	                _this.setState({
-	                    show: false
-	                });
-	            });
-	            // setTimeout(function(){
-	            //     this.setState({
+	            // var _this = this;
+	            // $.ajax({
+	            //     url : './phpData/data.php',
+	            //     type: 'GET',
+	            // })
+	            // .done(function(res) {
+	            //     _this.setState({
 	            //         show : false
 	            //     })
-	            // }.bind(this),3000)
+	            // });
+	            setTimeout(function () {
+	                this.setState({
+	                    show: false
+	                });
+	            }.bind(this), 3000);
 	        }
 	    }, {
 	        key: 'close',
@@ -273,6 +276,7 @@
 	            var config = {
 	                'text': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 	                'textAlign': 'left',
+	                'enabledMask': true,
 	                'buttons': [{
 	                    'type': 'warning',
 	                    'text': '确定',
@@ -311,7 +315,68 @@
 	    return ButtonOne;
 	}(_react.Component);
 
+	var ButtonTwo = function (_Component5) {
+	    _inherits(ButtonTwo, _Component5);
+
+	    function ButtonTwo(props) {
+	        _classCallCheck(this, ButtonTwo);
+
+	        var _this6 = _possibleConstructorReturn(this, (ButtonTwo.__proto__ || Object.getPrototypeOf(ButtonTwo)).call(this, props));
+
+	        _this6.state = {
+	            isShow: false
+	        };
+	        return _this6;
+	    }
+
+	    _createClass(ButtonTwo, [{
+	        key: 'render',
+	        value: function render() {
+	            var config = {
+	                'text': 'loading',
+	                'type': 'loading'
+	            };
+	            return _react2.default.createElement(
+	                'div',
+	                { style: { margin: '10px' } },
+	                _react2.default.createElement(
+	                    'button',
+	                    { onClick: this.open.bind(this), className: 'btn btn-success btn-block' },
+	                    '\u83B7\u53D6\u6570\u636E\u6309\u94AEdialog\u4F7F\u7528\u793A\u4F8B'
+	                ),
+	                _react2.default.createElement(_dialog2.default, { config: config, show: this.state.isShow, onHide: this.hiden.bind(this) })
+	            );
+	        }
+	    }, {
+	        key: 'open',
+	        value: function open() {
+	            var _this = this;
+	            this.setState({
+	                isShow: true
+	            });
+	            $.ajax({
+	                url: './phpData/data.php',
+	                type: 'GET'
+	            }).done(function () {
+	                _this.setState({
+	                    isShow: false
+	                });
+	            });
+	        }
+	    }, {
+	        key: 'hiden',
+	        value: function hiden() {
+	            this.setState({
+	                isShow: false
+	            });
+	        }
+	    }]);
+
+	    return ButtonTwo;
+	}(_react.Component);
+
 	_reactDom2.default.render(_react2.default.createElement(ButtonOne, null), document.getElementById('btn1'));
+	_reactDom2.default.render(_react2.default.createElement(ButtonTwo, null), document.getElementById('btn2'));
 	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('demo'));
 	_reactDom2.default.render(_react2.default.createElement(ToastMask, null), document.getElementById('toast'));
 
@@ -21761,7 +21826,7 @@
 	        key: 'render',
 	        value: function render() {
 	            if (this.props.type) {
-	                var type = 'nf-dialog-header nf-dialog-' + this.props.type;
+	                var type = 'nf-dialog-icon nf-dialog-' + this.props.type;
 	                return _react2.default.createElement('div', { className: type, onClick: function onClick(e) {
 	                        e.stopPropagation();
 	                    } });
@@ -21870,7 +21935,7 @@
 	            buttons: props.config.buttons || null,
 	            opacity: props.config.opacity || .5,
 	            delay: props.config.delay || false,
-	            disabledMask: props.config.disabledMask ? false : true
+	            enabledMask: props.config.enabledMask
 	        };
 	        _this5.delayInter = null;
 	        return _this5;
@@ -21935,9 +22000,12 @@
 	        key: 'close',
 	        value: function close() {
 	            //console.log('close',this.delayInter);
-	            if (!this.state.disabledMask) {
-	                return;
+	            if (!this.state.delay) {
+	                if (!this.state.enabledMask) {
+	                    return;
+	                }
 	            }
+
 	            if (this.props.onHide) {
 	                clearTimeout(this.delayInter); //关闭了上次的 timeout
 	                this.props.onHide();

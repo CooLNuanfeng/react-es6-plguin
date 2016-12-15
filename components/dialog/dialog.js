@@ -75,7 +75,7 @@ export default class Dialog extends Component {
             buttons : props.config.buttons || null,
             opacity : props.config.opacity || .5,
             delay : props.config.delay || false,
-            disabledMask : props.config.disabledMask ? false : true
+            enabledMask : props.config.enabledMask
         }
         this.delayInter = null;
     }
@@ -126,9 +126,12 @@ export default class Dialog extends Component {
     }
     close(){
         //console.log('close',this.delayInter);
-        if(!this.state.disabledMask){
-            return ;
+        if(!this.state.delay){
+            if(!this.state.enabledMask){
+                return ;
+            }
         }
+
         if(this.props.onHide){
             clearTimeout(this.delayInter); //关闭了上次的 timeout
             this.props.onHide();
