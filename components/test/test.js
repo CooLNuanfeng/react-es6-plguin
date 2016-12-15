@@ -30,3 +30,7 @@ export default class SimpleComponent extends Component{
         )
     }
 }
+//defaultProps 是设置 prop 属性的默认值，而非 state 的默认值
+SimpleComponent.defaultProps = {
+    content : 'This is a React Component',
+}

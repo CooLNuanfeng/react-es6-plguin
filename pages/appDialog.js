@@ -11,12 +11,12 @@ class Button extends Component{
         this.state = {
             show : props.show ? props.show : false,
             text : props.text,
-            type : props.type
+            id : props.id
         }
     }
     render(){
         var config = null;
-        switch (this.state.type) {
+        switch (this.state.id) {
             case 0:
                 config = {
                     text : 'toast提示信息',
@@ -34,6 +34,7 @@ class Button extends Component{
                     text : 'waiting Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                     textAlign : 'left',
                     type : 'warning',
+                    disablemaskClose : true,
                     buttons : [
                         {
                             type:'success',
@@ -56,7 +57,7 @@ class Button extends Component{
                     ]
                 }
                 break;
-            case 4:
+            case 3:
                 config = {
                     text :'loading',
                     type : 'loading',
@@ -96,7 +97,7 @@ class Buttons extends Component{
                 {
                     this.state.buttons.map((item,index) => {
                         return (
-                            <Button key={index} text={item.text} type={item.type} />
+                            <Button key={index} text={item.text} id={item.id} />
                         )
                     })
                 }
@@ -106,10 +107,10 @@ class Buttons extends Component{
 }
 
 var buttonData = [
-    {text:'toast提示框',type:0},
-    {text:'带图标的toast提示框',type:1},
-    {text:'带图标和按钮的提示框',type:2},
-    {text:'toast提示框延时3s后消失',type:4}
+    {text:'toast提示框',id:0},
+    {text:'带图标的toast提示框',id:1},
+    {text:'带图标和按钮的提示框',id:2},
+    {text:'toast提示框延时3s后消失',id:3}
 ]
 
 const App = (props) => {
@@ -117,6 +118,7 @@ const App = (props) => {
       <Buttons data={buttonData}/>
   );
 }
+
 
 class ToastMask extends Component{
     constructor(props){
@@ -144,5 +146,6 @@ class ToastMask extends Component{
         })
     }
 }
+
 
 ReactDOM.render(<App />,document.getElementById('demo'));

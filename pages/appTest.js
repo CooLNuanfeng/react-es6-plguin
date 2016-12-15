@@ -5,7 +5,6 @@ import SimpleComponent from '../components/test/test.js';
 
 var config = {
     title : 'Hello React',
-    content : 'This is a React Component',
     customStyle : {
         'padding': '10px',
         'border' : '1px solid #dadada',

@@ -67,23 +67,23 @@ class DialogButton extends Component{
 export default class Dialog extends Component {
     constructor(props){
         super(props);
-        // default config
         this.state = {
-            show : props.show,
             type : props.config.type || '',
             text : props.config.text || '',
             textAlign : props.config.textAlign || 'center',
             buttons : props.config.buttons || null,
             opacity : props.config.opacity || .5,
-            delay : props.config.delay || false
+            delay : props.config.delay || false,
+            disablemaskClose : props.config.disablemaskClose ? false:true, //是否禁用 mask 的点击关闭
         }
         this.delayInter = null;
     }
     render(){
+        //console.log('render');
         var show = this.props.show;
         if(show){
             return (
-                <div className="nf-dialog-mask" style={{background:'rgba(0,0,0,'+this.state.opacity+')'}} onClick={this.close.bind(this)}>
+                <div className="nf-dialog-mask" style={{background:'rgba(0,0,0,'+this.state.opacity+')'}} onClick={this.state.disablemaskClose ? ()=>{this.close()} : ()=>{return false}}>
                     <div className="nf-dialog">
                         <div className="nf-dialog-warp">
                             <DialogImg type={this.state.type} />
@@ -99,24 +99,38 @@ export default class Dialog extends Component {
     }
     componentWillUpdate(){
         //延时关闭
+        //console.log('componentWillUpdate',this.delayInter);
         if(this.state.delay){
-            //一定要在此处关闭，因为关闭时state的变化也会触发render和 该 componentWillUpdate 方法，如果不在这里关闭而在 close中关闭 只会关闭上一个，本次又会开启个定时器，因此 log 会一直输出变成了 setInterval的效果 注意 setTimeout的返回值一定要挂载到 this 上，否则 也会是 setInterval的效果,不用 var 定义的变量存定时器返回值，只因为js 会将 异步函数延迟执行 (js执行原理) 此时该变量已经变成下个定时器了
             this.delayInter = window.setTimeout(function(){
+                //console.log('componentWillUpdate in setTimeout before close',this.delayInter);
+                console.log('close');
                 this.close();
-                console.log('count');
-                clearTimeout(this.delayInter);
-                //this.close();
+                //console.log('componentWillUpdate in setTimeout after close',this.delayInter);
+                clearTimeout(this.delayInter);//一定要在此处关闭，因为关闭时state的变化也会触发render和 该 componentWillUpdate 方法，在 close中的clear关闭是上一个，本次又会开启个定时器，通过 log 会发现，固需要再关闭一次
+
             }.bind(this),this.state.delay);
         }
     }
+    // componentDidUpdate(){
+    //     console.log('componentDidUpdate');
+    // }
+    // componentDidMount(){
+    //     console.log('componentDidMount');
+    // }
     close(){
+        //console.log('close',this.delayInter);
         if(this.props.onHide){
-            //clearTimeout(this.delayInter);
+            clearTimeout(this.delayInter); //关闭了上次的 timeout
             this.props.onHide();
         }
     }
-
 }
+Dialog.defaultProps = {
+    onHide : null
+}
+
 Dialog.propTypes = {
-    config : React.PropTypes.object.isRequired
+    config : React.PropTypes.object.isRequired, //dialog 的配置参数
+    show : React.PropTypes.bool.isRequired,  //dialog 显示控制
+    onHide : React.PropTypes.func //dialog 关闭函数
 }
