@@ -4,6 +4,7 @@
   "description": "尝试编写基于es6语法的 react 插件",
   "main": "index.js",
   "scripts": {
+    "watch" : "webpack -w",
     "build": "webpack",
     "dev": "webpack-dev-server  --hot --inline"
   },

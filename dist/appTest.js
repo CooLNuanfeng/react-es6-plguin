@@ -62,14 +62,20 @@
 
 	var config = {
 	    title: 'Hello React',
-	    content: 'This is a React Component'
+	    customStyle: {
+	        'padding': '10px',
+	        'border': '1px solid #dadada',
+	        'margin': '10px',
+	        'borderRadius': '5px'
+	    }
 	};
 
 	var App = function App(props) {
+	    console.log(props);
 	    return _react2.default.createElement(_test2.default, config);
 	};
-
-	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
+	console.log(_react2.default);
+	_reactDom2.default.render(_react2.default.createElement(App, { name: 'blue' }), document.getElementById('app'));
 
 /***/ },
 /* 1 */
@@ -21512,27 +21518,58 @@
 	var SimpleComponent = function (_Component) {
 	    _inherits(SimpleComponent, _Component);
 
-	    function SimpleComponent() {
+	    function SimpleComponent(props) {
 	        _classCallCheck(this, SimpleComponent);
 
-	        return _possibleConstructorReturn(this, (SimpleComponent.__proto__ || Object.getPrototypeOf(SimpleComponent)).apply(this, arguments));
+	        var _this = _possibleConstructorReturn(this, (SimpleComponent.__proto__ || Object.getPrototypeOf(SimpleComponent)).call(this, props));
+
+	        _this.state = {
+	            count: 0
+	        };
+	        return _this;
 	    }
 
 	    _createClass(SimpleComponent, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var num = this.state.count;
+	            this.interval = setInterval(function () {
+	                this.setState({
+	                    count: num++
+	                });
+	            }.bind(this), 1000);
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            clearInterval(this.interval);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                null,
+	                { style: this.props.customStyle },
 	                _react2.default.createElement(
 	                    'h1',
 	                    null,
-	                    props.title
+	                    this.props.title
 	                ),
 	                _react2.default.createElement(
 	                    'p',
 	                    null,
-	                    props.content
+	                    this.props.content
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    '\u5F53\u524D\u8BA1\u7B97\u72B6\u6001\uFF1A',
+	                    this.state.count
+	                ),
+	                _react2.default.createElement(
+	                    'button',
+	                    { className: 'btn btn-block btn-success' },
+	                    '\u8FD9\u662F\u4E00\u4E2A\u6309\u94AE'
 	                )
 	            );
 	        }
@@ -21540,8 +21577,13 @@
 
 	    return SimpleComponent;
 	}(_react.Component);
+	//defaultProps 是设置 prop 属性的默认值，而非 state 的默认值
+
 
 	exports.default = SimpleComponent;
+	SimpleComponent.defaultProps = {
+	    content: 'This is a React Component'
+	};
 
 /***/ },
 /* 184 */

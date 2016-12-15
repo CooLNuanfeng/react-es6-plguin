@@ -34,12 +34,12 @@ class Button extends Component{
                     text : 'waiting Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                     textAlign : 'left',
                     type : 'warning',
-                    disablemaskClose : true,
+                    disabledMask : true,
                     buttons : [
                         {
                             type:'success',
                             text:'确定',
-                            trigger: true,
+                            disTrigger: true,
                             buttonStyle: {
                                 width : '100px'
                             },
@@ -129,16 +129,31 @@ class ToastMask extends Component{
     }
     render(){
         var config = {
-            text : 'warning'
+            type : 'loading',
+            text : 'loading...',
+            // disabledMask : true,
         }
         return (
             <Dialog config={config} show={this.state.show} onHide={null}/>
         )
     }
     componentDidMount(){
-        setTimeout(function(){
-            this.close();
-        }.bind(this),2000);
+        var _this = this;
+        $.ajax({
+            url : './phpData/data.php',
+            type: 'GET',
+        })
+        .done(function(res) {
+            _this.setState({
+                show : false
+            })
+        });
+        // setTimeout(function(){
+        //     this.setState({
+        //         show : false
+        //     })
+        // }.bind(this),3000)
+
     }
     close(){
         this.setState({
@@ -147,5 +162,46 @@ class ToastMask extends Component{
     }
 }
 
+class ButtonOne extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            isShow : false
+        }
+    }
+    render(){
+        var config = {
+            'text' : 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+            'textAlign' : 'left',
+            'buttons' : [
+                {
+                    'type' : 'warning',
+                    'text' : '确定',
+                    callback : function(){
+                        console.log('ok');
+                    }
+                }
+            ]
+        }
+        return(
+            <div style={{margin:'10px'}}>
+                <button onClick={this.open.bind(this)} className="btn btn-success btn-block">普通按钮dialog使用示例</button>
+                <Dialog config={config} show={this.state.isShow} onHide={this.hiden.bind(this)} />
+            </div>
+        )
+    }
+    open(){
+        this.setState({
+            isShow : true
+        })
+    }
+    hiden(){
+        this.setState({
+            isShow : false
+        })
+    }
+}
 
+ReactDOM.render(<ButtonOne />,document.getElementById('btn1'));
 ReactDOM.render(<App />,document.getElementById('demo'));
+ReactDOM.render(<ToastMask />,document.getElementById('toast'));

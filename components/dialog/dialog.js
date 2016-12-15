@@ -5,9 +5,9 @@ import './dialog.scss';
 class DialogImg extends Component{
     render(){
         if(this.props.type){
-            var type = 'nf-dialog-header nf-dialog-'+this.props.type;
+            var type = 'nf-dialog-icon nf-dialog-'+this.props.type;
             return (
-                <div className={type}></div>
+                <div className={type} onClick={(e)=>{e.stopPropagation()}}></div>
             )
         }else{
             return null;
@@ -19,7 +19,7 @@ class DialogBody extends Component{
     render(){
         if(this.props.text){
             return (
-                <div className="nf-dialog-body" style={{textAlign:this.props.align}}>{this.props.text}</div>
+                <div className="nf-dialog-body" style={{textAlign:this.props.align}} onClick={(e)=>{e.stopPropagation()}}>{this.props.text}</div>
             )
         }else{
             return null;
@@ -41,7 +41,7 @@ class DialogButton extends Component{
                 <div className="nf-dialog-footer">
                     {
                         this.state.buttons.map(function(item,index){
-                            var flag = item.trigger ? false : true;
+                            var flag = item.disTrigger ? false : true;
                             var customBtnStyle = item.buttonStyle ? item.buttonStyle : null;
                             return (
                                 <button style={customBtnStyle} key={index} className={'btn btn-'+item.type} onClick={_this.btnClick.bind(_this,item.callback,flag)}>{item.text}</button>
@@ -61,6 +61,7 @@ class DialogButton extends Component{
         if(cb){
             cb();
         }
+        this.props.clickFn(!flag)
     }
 }
 
@@ -74,7 +75,7 @@ export default class Dialog extends Component {
             buttons : props.config.buttons || null,
             opacity : props.config.opacity || .5,
             delay : props.config.delay || false,
-            disablemaskClose : props.config.disablemaskClose ? false:true, //是否禁用 mask 的点击关闭
+            disabledMask : props.config.disabledMask ? false : true
         }
         this.delayInter = null;
     }
@@ -83,12 +84,12 @@ export default class Dialog extends Component {
         var show = this.props.show;
         if(show){
             return (
-                <div className="nf-dialog-mask" style={{background:'rgba(0,0,0,'+this.state.opacity+')'}} onClick={this.state.disablemaskClose ? ()=>{this.close()} : ()=>{return false}}>
+                <div className="nf-dialog-mask" style={{background:'rgba(0,0,0,'+this.state.opacity+')'}} onClick={this.close.bind(this)}>
                     <div className="nf-dialog">
                         <div className="nf-dialog-warp">
                             <DialogImg type={this.state.type} />
                             <DialogBody text={this.state.text} align={this.state.textAlign}/>
-                            <DialogButton buttons={this.state.buttons} />
+                            <DialogButton buttons={this.state.buttons} clickFn={this.fn.bind(this)}/>
                         </div>
                     </div>
                 </div>
@@ -117,8 +118,17 @@ export default class Dialog extends Component {
     // componentDidMount(){
     //     console.log('componentDidMount');
     // }
+    fn(flag){
+        if(this.props.onHide && !flag){
+            clearTimeout(this.delayInter); //关闭了上次的 timeout
+            this.props.onHide();
+        }
+    }
     close(){
         //console.log('close',this.delayInter);
+        if(!this.state.disabledMask){
+            return ;
+        }
         if(this.props.onHide){
             clearTimeout(this.delayInter); //关闭了上次的 timeout
             this.props.onHide();

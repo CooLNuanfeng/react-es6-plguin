@@ -26,6 +26,7 @@ export default class SimpleComponent extends Component{
                 <h1>{this.props.title}</h1>
                 <p>{this.props.content}</p>
                 <p>当前计算状态：{this.state.count}</p>
+                <button className="btn btn-block btn-success">这是一个按钮</button>
             </div>
         )
     }

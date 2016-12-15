@@ -79,7 +79,7 @@
 	        _this2.state = {
 	            show: props.show ? props.show : false,
 	            text: props.text,
-	            type: props.type
+	            id: props.id
 	        };
 	        return _this2;
 	    }
@@ -88,23 +88,49 @@
 	        key: 'render',
 	        value: function render() {
 	            var config = null;
-	            switch (this.state.type) {
+	            switch (this.state.id) {
 	                case 0:
 	                    config = {
-	                        text: 'loading',
-	                        type: 'loading'
+	                        text: 'toast提示信息'
 	                    };
 	                    break;
 	                case 1:
+	                    config = {
+	                        text: 'toast提示信息',
+	                        type: 'warning'
+	                    };
+	                    break;
+	                case 2:
 	                    //trigger 是否阻止冒泡 使 dialog 关闭
 	                    config = {
-	                        text: 'waiting',
-	                        type: 'waiting',
-	                        buttons: [{ type: 'success', text: '确定', trigger: true, callback: function callback() {
+	                        text: 'waiting Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+	                        textAlign: 'left',
+	                        type: 'warning',
+	                        disabledMask: true,
+	                        buttons: [{
+	                            type: 'success',
+	                            text: '确定',
+	                            disTrigger: true,
+	                            buttonStyle: {
+	                                width: '100px'
+	                            },
+	                            callback: function callback() {
 	                                console.log('ok callback');
-	                            } }, { type: 'default', text: '取消', callback: function callback() {
+	                            }
+	                        }, {
+	                            type: 'default',
+	                            text: '取消',
+	                            callback: function callback() {
 	                                console.log('cancel callback');
-	                            } }]
+	                            }
+	                        }]
+	                    };
+	                    break;
+	                case 3:
+	                    config = {
+	                        text: 'loading',
+	                        type: 'loading',
+	                        delay: 3000
 	                    };
 	                    break;
 	            }
@@ -159,7 +185,7 @@
 	                'div',
 	                null,
 	                this.state.buttons.map(function (item, index) {
-	                    return _react2.default.createElement(Button, { key: index, text: item.text, type: item.type });
+	                    return _react2.default.createElement(Button, { key: index, text: item.text, id: item.id });
 	                })
 	            );
 	        }
@@ -168,7 +194,7 @@
 	    return Buttons;
 	}(_react.Component);
 
-	var buttonData = [{ text: 'toast提示框', type: 0 }, { text: '带图标的toast提示框', type: 1 }];
+	var buttonData = [{ text: 'toast提示框', id: 0 }, { text: '带图标的toast提示框', id: 1 }, { text: '带图标和按钮的提示框', id: 2 }, { text: 'toast提示框延时3s后消失', id: 3 }];
 
 	var App = function App(props) {
 	    return _react2.default.createElement(Buttons, { data: buttonData });
@@ -192,26 +218,100 @@
 	        key: 'render',
 	        value: function render() {
 	            var config = {
-	                type: 'warning',
-	                text: 'warning'
+	                type: 'loading',
+	                text: 'loading...'
 	            };
-	            return _react2.default.createElement(_dialog2.default, { config: config, show: this.state.show });
+	            return _react2.default.createElement(_dialog2.default, { config: config, show: this.state.show, onHide: null });
 	        }
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            var _this = this;
-	            setTimeout(function () {
+	            $.ajax({
+	                url: './phpData/data.php',
+	                type: 'GET'
+	            }).done(function (res) {
 	                _this.setState({
 	                    show: false
 	                });
-	            }, 3000);
+	            });
+	            // setTimeout(function(){
+	            //     this.setState({
+	            //         show : false
+	            //     })
+	            // }.bind(this),3000)
+	        }
+	    }, {
+	        key: 'close',
+	        value: function close() {
+	            this.setState({
+	                show: false
+	            });
 	        }
 	    }]);
 
 	    return ToastMask;
 	}(_react.Component);
 
+	var ButtonOne = function (_Component4) {
+	    _inherits(ButtonOne, _Component4);
+
+	    function ButtonOne(props) {
+	        _classCallCheck(this, ButtonOne);
+
+	        var _this5 = _possibleConstructorReturn(this, (ButtonOne.__proto__ || Object.getPrototypeOf(ButtonOne)).call(this, props));
+
+	        _this5.state = {
+	            isShow: false
+	        };
+	        return _this5;
+	    }
+
+	    _createClass(ButtonOne, [{
+	        key: 'render',
+	        value: function render() {
+	            var config = {
+	                'text': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+	                'textAlign': 'left',
+	                'buttons': [{
+	                    'type': 'warning',
+	                    'text': '确定',
+	                    callback: function callback() {
+	                        console.log('ok');
+	                    }
+	                }]
+	            };
+	            return _react2.default.createElement(
+	                'div',
+	                { style: { margin: '10px' } },
+	                _react2.default.createElement(
+	                    'button',
+	                    { onClick: this.open.bind(this), className: 'btn btn-success btn-block' },
+	                    '\u666E\u901A\u6309\u94AEdialog\u4F7F\u7528\u793A\u4F8B'
+	                ),
+	                _react2.default.createElement(_dialog2.default, { config: config, show: this.state.isShow, onHide: this.hiden.bind(this) })
+	            );
+	        }
+	    }, {
+	        key: 'open',
+	        value: function open() {
+	            this.setState({
+	                isShow: true
+	            });
+	        }
+	    }, {
+	        key: 'hiden',
+	        value: function hiden() {
+	            this.setState({
+	                isShow: false
+	            });
+	        }
+	    }]);
+
+	    return ButtonOne;
+	}(_react.Component);
+
+	_reactDom2.default.render(_react2.default.createElement(ButtonOne, null), document.getElementById('btn1'));
 	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('demo'));
 	_reactDom2.default.render(_react2.default.createElement(ToastMask, null), document.getElementById('toast'));
 
@@ -21661,8 +21761,10 @@
 	        key: 'render',
 	        value: function render() {
 	            if (this.props.type) {
-	                var type = 'nf-dialog-img nf-dialog-' + this.props.type;
-	                return _react2.default.createElement('div', { className: type });
+	                var type = 'nf-dialog-header nf-dialog-' + this.props.type;
+	                return _react2.default.createElement('div', { className: type, onClick: function onClick(e) {
+	                        e.stopPropagation();
+	                    } });
 	            } else {
 	                return null;
 	            }
@@ -21687,7 +21789,9 @@
 	            if (this.props.text) {
 	                return _react2.default.createElement(
 	                    'div',
-	                    { className: 'nf-dialog-body' },
+	                    { className: 'nf-dialog-body', style: { textAlign: this.props.align }, onClick: function onClick(e) {
+	                            e.stopPropagation();
+	                        } },
 	                    this.props.text
 	                );
 	            } else {
@@ -21722,10 +21826,11 @@
 	                    'div',
 	                    { className: 'nf-dialog-footer' },
 	                    this.state.buttons.map(function (item, index) {
-	                        var flag = item.trigger ? false : true;
+	                        var flag = item.disTrigger ? false : true;
+	                        var customBtnStyle = item.buttonStyle ? item.buttonStyle : null;
 	                        return _react2.default.createElement(
 	                            'button',
-	                            { key: index, className: 'btn btn-' + item.type, onClick: _this.btnClick.bind(_this, item.callback, flag) },
+	                            { style: customBtnStyle, key: index, className: 'btn btn-' + item.type, onClick: _this.btnClick.bind(_this, item.callback, flag) },
 	                            item.text
 	                        );
 	                    })
@@ -21743,6 +21848,7 @@
 	            if (cb) {
 	                cb();
 	            }
+	            this.props.clickFn(!flag);
 	        }
 	    }]);
 
@@ -21755,25 +21861,26 @@
 	    function Dialog(props) {
 	        _classCallCheck(this, Dialog);
 
-	        // default config
 	        var _this5 = _possibleConstructorReturn(this, (Dialog.__proto__ || Object.getPrototypeOf(Dialog)).call(this, props));
 
 	        _this5.state = {
-	            show: props.show,
 	            type: props.config.type || '',
 	            text: props.config.text || '',
+	            textAlign: props.config.textAlign || 'center',
 	            buttons: props.config.buttons || null,
 	            opacity: props.config.opacity || .5,
-	            delay: props.config.delay || false
+	            delay: props.config.delay || false,
+	            disabledMask: props.config.disabledMask ? false : true
 	        };
+	        _this5.delayInter = null;
 	        return _this5;
 	    }
 
 	    _createClass(Dialog, [{
 	        key: 'render',
 	        value: function render() {
+	            //console.log('render');
 	            var show = this.props.show;
-
 	            if (show) {
 	                return _react2.default.createElement(
 	                    'div',
@@ -21785,8 +21892,8 @@
 	                            'div',
 	                            { className: 'nf-dialog-warp' },
 	                            _react2.default.createElement(DialogImg, { type: this.state.type }),
-	                            _react2.default.createElement(DialogBody, { text: this.state.text }),
-	                            _react2.default.createElement(DialogButton, { buttons: this.state.buttons })
+	                            _react2.default.createElement(DialogBody, { text: this.state.text, align: this.state.textAlign }),
+	                            _react2.default.createElement(DialogButton, { buttons: this.state.buttons, clickFn: this.fn.bind(this) })
 	                        )
 	                    )
 	                );
@@ -21795,18 +21902,45 @@
 	            }
 	        }
 	    }, {
-	        key: 'close',
-	        value: function close() {
-	            if (this.props.onHide) {
+	        key: 'componentWillUpdate',
+	        value: function componentWillUpdate() {
+	            //延时关闭
+	            //console.log('componentWillUpdate',this.delayInter);
+	            if (this.state.delay) {
+	                this.delayInter = window.setTimeout(function () {
+	                    //console.log('componentWillUpdate in setTimeout before close',this.delayInter);
+	                    console.log('close');
+	                    this.close();
+	                    //console.log('componentWillUpdate in setTimeout after close',this.delayInter);
+	                    clearTimeout(this.delayInter); //一定要在此处关闭，因为关闭时state的变化也会触发render和 该 componentWillUpdate 方法，在 close中的clear关闭是上一个，本次又会开启个定时器，通过 log 会发现，固需要再关闭一次
+	                }.bind(this), this.state.delay);
+	            }
+	        }
+	        // componentDidUpdate(){
+	        //     console.log('componentDidUpdate');
+	        // }
+	        // componentDidMount(){
+	        //     console.log('componentDidMount');
+	        // }
+
+	    }, {
+	        key: 'fn',
+	        value: function fn(flag) {
+	            if (this.props.onHide && !flag) {
+	                clearTimeout(this.delayInter); //关闭了上次的 timeout
 	                this.props.onHide();
 	            }
 	        }
 	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            var _this = this;
-	            if (this.state.delay) {
-	                setTimeout(function () {}, this.state.delay);
+	        key: 'close',
+	        value: function close() {
+	            //console.log('close',this.delayInter);
+	            if (!this.state.disabledMask) {
+	                return;
+	            }
+	            if (this.props.onHide) {
+	                clearTimeout(this.delayInter); //关闭了上次的 timeout
+	                this.props.onHide();
 	            }
 	        }
 	    }]);
@@ -21816,8 +21950,14 @@
 
 	exports.default = Dialog;
 
+	Dialog.defaultProps = {
+	    onHide: null
+	};
+
 	Dialog.propTypes = {
-	    config: _react2.default.PropTypes.object.isRequired
+	    config: _react2.default.PropTypes.object.isRequired, //dialog 的配置参数
+	    show: _react2.default.PropTypes.bool.isRequired, //dialog 显示控制
+	    onHide: _react2.default.PropTypes.func //dialog 关闭函数
 	};
 
 /***/ },
