@@ -83,7 +83,7 @@ export default class Dialog extends Component {
         var show = this.props.show;
         if(show){
             return (
-                <div className="nf-dialog-mask" style={{background:'rgba(0,0,0,'+this.state.opacity+')'}} onClick={this.close.bind(this)}>
+                <div className="nf-dialog-mask" style={{background:'rgba(0,0,0,'+this.state.opacity+')'}} onClick={this.close.bind(this)} onTouchMove={this.touch.bind(this)}>
                     <div className="nf-dialog">
                         <div className="nf-dialog-warp">
                             <DialogImg type={this.state.type} />
@@ -113,6 +113,10 @@ export default class Dialog extends Component {
             clearTimeout(this.delayInter); //关闭了上次的 timeout
             this.props.onHide();
         }
+    }
+    touch(e){
+        e.preventDefault();
+        return false;
     }
 }
 Dialog.defaultProps = {

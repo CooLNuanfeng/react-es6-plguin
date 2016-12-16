@@ -21951,7 +21951,7 @@
 	            if (show) {
 	                return _react2.default.createElement(
 	                    'div',
-	                    { className: 'nf-dialog-mask', style: { background: 'rgba(0,0,0,' + this.state.opacity + ')' }, onClick: this.close.bind(this) },
+	                    { className: 'nf-dialog-mask', style: { background: 'rgba(0,0,0,' + this.state.opacity + ')' }, onClick: this.close.bind(this), onTouchMove: this.touch.bind(this) },
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'nf-dialog' },
@@ -21987,6 +21987,12 @@
 	                clearTimeout(this.delayInter); //关闭了上次的 timeout
 	                this.props.onHide();
 	            }
+	        }
+	    }, {
+	        key: 'touch',
+	        value: function touch(e) {
+	            e.preventDefault();
+	            return false;
 	        }
 	    }]);
 
